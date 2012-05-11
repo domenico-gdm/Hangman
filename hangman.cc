@@ -11,6 +11,7 @@ using namespace std;
 // characters positions in string function
 
 void char_pos(string wtbg, char c, short start, bool found);
+void give_answer(string wtbg, int a);
 
 // Main function
 int main(void) {
@@ -42,10 +43,6 @@ int main(void) {
 
 		// Position of the character in the string word_to_be_guessed
 	int position;
-
-		// Answer to the game
-	string answer;
-
 
 		// Blank line
 	cout << endl;
@@ -105,22 +102,21 @@ int main(void) {
 
 			 		// Check if the character is in the string
 				cin >> c;
+
+				if(c == '1') {
+					give_answer(word_to_be_guessed, 1);
+
+					return 0;
+				}
+
 				cout << endl;
 				char_pos(word_to_be_guessed, c, 0, false);
 			}
 
 			cout << "So... do you know the word or not!? ";
 
-				// Does the user know the answer?
-			cin.ignore();
-			getline(cin, answer);
-
-			if(word_to_be_guessed.compare(answer) == 0) {
-				cout << endl << "Great! You're right, the word was indeed " << answer << "!!" << endl;
-			}
-			else {
-				cout << endl << "You know how to play this game, right? You Lose!" << endl;
-			}
+				// Ask for the answer
+			give_answer(word_to_be_guessed, 0);
 	}
 	else {
 		cout << endl << "OK, no problem! =)" << endl;
@@ -158,5 +154,33 @@ void char_pos(string wtbg, char c, short start = 0, bool found = false) {
 		else {
 			cout << "Character not found." << endl << endl;
 		}
+	}
+}
+
+
+// give_answer function
+
+void give_answer(string wtbg, int a) {
+
+		// Answer to the game
+	string answer;
+
+	if(a == 1) {
+		cout << "So you know the answer huh!? What is it? ";
+	}
+
+	cin.ignore();
+	getline(cin, answer);
+
+	if((wtbg.compare(answer) == 0) && (a == 0)) {
+
+		cout << endl << "Great! You're right, the word was indeed " << answer << "!!" << endl;
+	}
+	else if((wtbg.compare(answer) == 0) && (a == 1)) {
+
+		cout << endl << "WOW, it's the correct answer! HOW DID YOU DO THAT!? You cheated, didn't you!?" << endl;
+	}
+	else {
+		cout << endl << "You know how to play this game, right? YOU LOSE!" << endl;
 	}
 }
