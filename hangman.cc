@@ -10,7 +10,7 @@ using namespace std;
 
 // characters positions in string function
 
-void char_pos(string wtbg, char c, short start, bool found);
+bool char_pos(string wtbg, char c, short start, bool found);
 void give_answer(string wtbg, int a);
 
 // Main function
@@ -86,7 +86,7 @@ int main(void) {
 			 << "I have a word in mind, can you guess what that word is?"
 			 << endl
 			 << endl
-			 << "You can either enter a character at a time (3 possibilities), or guess the entire word."
+			 << "You can either enter a character at a time (3 possibilities to go wrong), or guess the entire word."
 			 << endl
 			 << endl
 			 << "Press 1 at any time to give the answer!"
@@ -95,10 +95,10 @@ int main(void) {
 			 << "GO!"
 			 << endl;
 
-			 	// The user have three possibilities to guess the characters in the string
-			cout << endl << "The word is " << word_to_be_guessed.length() << " characters long." << endl << endl;
+			 	// The user have three possibilities to go wrong
+			cout << endl << "The word is " << word_to_be_guessed.length()-1 << " characters long." << endl << endl;
 				
-			for(int i = 0; i < 3; ++ i) {
+			for(int i = 0; i < 3; ++i) {
 
 			 		// Check if the character is in the string
 				cin >> c;
@@ -110,7 +110,10 @@ int main(void) {
 				}
 
 				cout << endl;
-				char_pos(word_to_be_guessed, c, 0, false);
+				
+				if(char_pos(word_to_be_guessed, c, 0, false) == true) {
+					i--;
+				}
 			}
 
 			cout << "So... do you know the word or not!? ";
@@ -134,7 +137,7 @@ int main(void) {
 // start = at what point of the string should we start searching for c
 // wtbg = word from dictionary
 
-void char_pos(string wtbg, char c, short start = 0, bool found = false) {
+bool char_pos(string wtbg, char c, short start = 0, bool found = false) {
 
 	size_t position;
 
@@ -149,10 +152,14 @@ void char_pos(string wtbg, char c, short start = 0, bool found = false) {
 			// If found is true, that means that at least a character has been found
 		if(found == true) {
 			cout << endl;
-			return;
+
+				// Returns true so the program give the user another possibilities because the character was indeed found
+			return true;
 		}
 		else {
 			cout << "Character not found." << endl << endl;
+
+			return false;
 		}
 	}
 }
@@ -181,6 +188,6 @@ void give_answer(string wtbg, int a) {
 		cout << endl << "WOW, it's the correct answer! HOW DID YOU DO THAT!? You cheated, didn't you!?" << endl;
 	}
 	else {
-		cout << endl << "You know how to play this game, right? YOU LOSE!" << endl;
+		cout << endl << "You know how to play this game, right? YOU LOSE! The word was " << wtbg << endl;
 	}
 }
